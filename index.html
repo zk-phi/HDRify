@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+  <head>
+    <title>HDRify</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="./hdrify.js"></script>
+  </head>
+
+  <body class="container">
+    <h1>画像を光らせる</h1>
+    <p>
+      やたら明るい、「光る画像」を作れるジェネレータ（コンバータ）です。
+    </p>
+    <ul>
+      <li>画像に<a target="_blank" href="https://gigazine.net/news/20250418-slack-hdr-emoji/">2020_profile.icc</a>を埋め込んで HDR 化します。</li>
+      <li>画像はすべてローカルで処理され、どこかに送信されることはありません。</li>
+      <li>非対応のディスプレイ・アプリでは期待通りに光らない場合があります。</li>
+    </ul>
+
+    <h3>光らせる画像を選ぶ</h3>
+    <input type="file" id="JS_file" />
+
+    <h3>結果</h3>
+    <div id="result"></div>
+
+    <hr />
+
+    <small>Built with ♡ by zk-phi</small>
+
+    <script src="./main.js"></script>
+  </body>
+
+</html>
