@@ -25,7 +25,7 @@ const canvasToPng = (canvas) => new Promise((resolve) => (
   canvas.toBlob(resolve, 'image/png')
 ));
 
-const convertFileToPng = async (file) => {
+const convertFileToPng = async (file, mult = 1.0, pow = 1.0) => {
   const img = await fileToImg(file);
   const w = img.naturalWidth;
   const h = img.naturalHeight;
@@ -36,6 +36,18 @@ const convertFileToPng = async (file) => {
 
   const ctx = canvas.getContext('2d');
   ctx.drawImage(img, 0, 0, w, h);
+
+  const data = ctx.getImageData(0, 0, w, h);
+  const arr = data.data;
+  for (let i = 0; i < w * h; i++) {
+    for (let j = 0; j < 3; j++) {
+      let val = arr[i * 4 + j] / 255;
+      val *= mult;
+      val = Math.pow(val, pow);
+      arr[i * 4 + j] = Math.max(0, Math.min(255, Math.round(val * 255)));
+    }
+  }
+  ctx.putImageData(data, 0, 0);
 
   return await canvasToPng(canvas);
 }
@@ -138,7 +150,8 @@ const iccpChunk = makeIccpChunk();
 /* Infuse the iCCP chunk into a png image
  * https://sharpletters.net/2025/04/16/hdr-emoji/ */
 
-async function hdrify (pngBlob) {
+async function hdrify (file, mult = 1.0, pow = 1.0) {
+  const pngBlob = await convertFileToPng(file, mult, pow);
   const pngBinary = new Uint8Array(await pngBlob.arrayBuffer());
 
   const chunks = [
