@@ -1,7 +1,6 @@
 document.getElementById("JS_file").addEventListener("input", async (e) => {
-  const pngBlob = await convertFileToPng(e.target.files[0]);
-  const infusedPngBlob = await hdrify(pngBlob);
+  const hdrBlob = await hdrify(e.target.files[0]);
   const img = document.createElement("img");
-  img.src = URL.createObjectURL(infusedPngBlob);
+  img.src = URL.createObjectURL(hdrBlob);
   document.getElementById("result").prepend(img);
 });
